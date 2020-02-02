@@ -875,11 +875,6 @@ Finds the Component Selector in the HTML
 Declared in the bootstrap array
 Declared in the root definition
 If your component is not listed any of the above, then it needs to be declared in EntryComponent so that it Angular knows where to find them and compile.)
-
-
-
-
-
 )
 
 

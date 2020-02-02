@@ -1,0 +1,950 @@
+Angular Notes:
+
+ 
+
+Angular 
+
+ 
+
+1. Typerscript vs Javascript, Transpilation vs Compilation 
+
+ 
+
+2. Components  
+
+HTML comes with a bunch of pre-built tags like <input> and <form> which look and behave a certain way. In Angular we create new custom tags with their own look and behaviour. 
+
+An Angular application is therefore just a set of custom tags that interact with each other, we call these tags Components. 
+
+ 
+
+AppModule - It is root module which bootstraps and launches angular application 
+
+ 
+
+3. Annotation 
+
+The @Component is an annotation, an annotation automatically adds some boilerplate code to the class, function or property it’s attached to. 
+
+You can write Angular without using annotations you would just have to write the boilerplate code yourself. 
+
+ 
+
+4. Angular Modules 
+
+We are using the term module for two different concepts. In JavaScript the term module generally refers to code which exists in a single file. An NgModule is a different concept, it combines code from different files together into one package. An NgModule therefore contains functionality from multiple files a module refers to functionality in a single file. 
+
+ 
+
+5. Classes 
+
+classes are blueprints for objects, or in other words instructions for how to create an object.  
+
+ 
+
+6. String Interpolation (moustache syntax) 
+
+To send/read data from Component to HTML we use string interpolation 
+
+ 
+
+7. HTML Attribute vs DOM Property 
+
+- Angular doesn’t manipulate HTML attributes, it manipulates DOM properties because the DOM is what actually gets displayed. 
+
+So when we write [hidden] we are manipulating the DOM property and not the HTML attribute. 
+
+This is why the above is called Input Property Binding and not Input Attribute Binding. 
+
+ 
+
+8. Property & Event Binding 
+
+- We can only use this type of binding to change the value of the target. We can’t use it to get notified when the target’s value changes, to do that we need to use something called Output Event Binding 
+
+ 
+
+- We have some new syntax with (). The target inside the () is an event we want to listen for, we are listening for the click event. 
+
+The text to the right of = is some JavaScript which will be called every time a click event occurs. 
+
+ 
+
+- With the [] we are binding to an input of a Component. 
+
+With the () we are binding to an output of a Component. 
+
+ 
+
+9. Domain Models 
+
+It’s just a plain class which we will use to store data and functions. 
+
+ 
+
+10. Nesting Components & Inputs in Angular (@Input decorator, @Output decorator EventEmitter)  
+
+@Input is used to pass data from parent to child and the opposite, @Output, can be used when you want to pass data from the child to the parent (which can also be done with observables or simple functions). 
+
+11. Template Reference Variables 
+
+ 
+
+12. difference between let, var, const 
+
+https://www.tutorialsteacher.com/typescript/typescript-variable 
+
+ 
+
+13. use of Map & Set 
+
+ 
+
+14.Promise  
+
+Promises are a far cleaner solution to writing asynchronous code than callbacks. 
+
+When you execute a task synchronously, you wait for it to finish before moving on to the next line of code. 
+
+When you execute a task asynchronously, the program moves to the next line of code before the task finishes. 
+
+ 
+
+15. OOPS in Typescript (class, inheritance, interface) 
+
+16. Decorators  
+
+They are just functions that can be used to add meta-data, properties or functions to the thing they are attached to. 
+
+ 
+
+17. Encapsulation: The renderer uses ViewEncapsulation.Emulated if the view has styles, otherwise ViewEncapsulation.None. There is also a ViewEncapsulation.Native method which uses the shadow DOM to encapsulate the view. 
+
+ 
+
+18. Hooks for the Component 
+
+constructor 
+
+This is invoked when Angular creates a component or directive by calling new on the class. 
+
+ 
+
+ngOnChanges 
+
+Invoked every time there is a change in one of th input properties of the component. 
+
+ 
+
+ngOnInit 
+
+Invoked when given component has been initialized. 
+
+This hook is only called once after the first ngOnChanges 
+
+ 
+
+ngDoCheck 
+
+Invoked when the change detector of the given component is invoked. It allows us to implement our own change detection algorithm for the given component. 
+
+ 
+
+Important 
+
+ngDoCheck and ngOnChanges should not be implemented together on the same component. 
+
+ 
+
+ngOnDestroy 
+
+This method will be invoked just before Angular destroys the component. 
+
+Use this hook to unsubscribe observables and detach event handlers to avoid memory leaks. 
+
+ 
+
+19. <ng-content> 
+
+https://medium.com/@joshblf/wtf-is-ng-content-8382b2a664e1 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+1. What is Angular?
+Angular is a UI framework for building mobile and desktop web applications. It is built using JavaScript. You can use it to build amazing client-side applications using HTML, CSS, and JavaScript.
+
+2. Features of Angular
+- Two-Way Data Binding
+- Powerful Routing Support
+- Expressive HTML
+- Modular by Design
+- Built-in Back End Support
+- Active Community
+
+3. Difference between AngularJS and Angular? Why Typescript
+
+4. What is Webpack? (Its main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset. Webpack takes modules with dependencies and generates static assets representing those modules.)
+
+5. Components (The Component is the main building block of an Angular Application. A Component contains the definition of the View and the data that defines how the View looks and behaves.)
+
+-The Component passes the data to the view using a process called Data Binding.
+- The Components consists of three main building blocks
+
+	-Template (The template defines the layout of the View and defines what is rendered on the 			page.)
+	-Class (The class is the code associated with Template (View).)
+	-MetaData (Metadata Provides additional information about the component to the Angular. Angular uses this information to process the class. The Metadata is defined with a decorator.)
+	
+- Decorator (A decorator is a function that adds metadata to class, its methods & to its properties. The Components are defined with a @component class decorator. It is @component decorator, which defines the class as Component to the Angular. The decorators are Similar to attributes in C#)
+
+- Important Component metadata properties
+Selector
+Selector specifies the simple CSS selector, where our view representing the component is placed by the Angular.
+
+Providers
+The Providers are the services, that our component going to use. The Services provide service to the Components or to the other Services.
+
+Directives (Directive is a function that executes whenever the Angular compiler finds it in the DOM. Angular directives are used to extend the power of the HTML by giving it new syntax.)
+The directives that this component going to use are listed here.
+
+Styles/styleUrls
+The CSS Styles or style sheets, that this component needs. Here we can use either external stylesheet (using styleUrls) or inline styles (using Styles). The styles used here are specific to the component
+
+template/templateUrl
+The HTML template that defines our View. It tells Angular how to render the Component’s view.
+
+6. Data Binding in Angular (Data Binding is a process where data is passed from Angular Component to view (Template) and vice versa.)
+
+-Difference between Template Expression and Template statement
+The content inside the double braces is called Template Expression in Angular.Template statement is similar to Template expression but can change the state of the application.
+
+Template statements are used in case of Event Bindings. It responds to the event raised by the user like clicking on a save button (Click event) or modifying the value of textbox (Change event) etc and invokes the method in the component class. Template statement is often is a method in the Component class
+
+Four ways you can bind data in Angular
+
+Interpolation(The title property, which is defined in the component class bound to the template using double curly braces in the template. This is called Interpolation.We can invoke the components methods using interpolation.)
+
+Property Binding(Property binding allows us to bind Property of a view element to the value of template expression. [Property]=”expression”)
+Property Binding Vs Interpolation(Everything that can be done from Property binding can be done using the interpolation. Interpolation requires expression to return a string. If you want to set an element property to a non-string data value, you must use property binding.)
+
+
+Event Binding(Event Binding is used to Perform an action in the component when the user clicks a button in the view.<button (click)=’ClickPressed()’>)
+
+Two Way Binding(Two-way binding means that changes made in the component data are propagated to the view and that any changes made in the view are immediately updated in the underlying component data. <input [(ngModel)] ='name'></input>)
+
+The ngModel directive is not part of the Angular Core library. It is part of the FormsModule library. You need to import the FormsModule package into your Angular module.
+
+7. Adding Child/Nested Components Using Angular
+8. Directives(The Angular directive helps us to manipulate the DOM. You can change the appearance, behavior or a layout of a DOM element using the Directives.)
+
+There are three kinds of directives in Angular:
+
+- Component Directive(They are the directive with a template (view))
+
+- Structural directives(Structural directives can change the DOM layout by adding and removing DOM elements. All structural Directives are preceded by Asterix symbol.e.g.ngFor, ngSwitch, ngIf,)
+
+*ngFor - <li *ngFor="let item of items;”> …. </li>
+
+*ngSwitch - Input string : <input type='text' [(ngModel)] ="num"/>
+							<div [ngSwitch]="num">
+								<div *ngSwitchCase="'1'">One</div>
+								<div *ngSwitchDefault>This is Default</div>
+							</div>
+							
+*ngIf - <p *ngIf="condition">
+Difference between *ngIf and hidden (ngIf does not hide the DOM element. It removes the entire element along with its subtree from the DOM. It also removes the corresponding state freeing up the resources attached to the element.Hidden attribute does not remove the element from the DOM. But just hides it.)		
+
+*ngIf else - (The ngIf allows us to define optional else block using the ng-template)
+<div *ngIf="condition; else elseBlock">
+    content to render, when thee condition is true 
+</div>
+ 
+<ng-template #elseBlock>
+    content to render, when the condition is false 
+</ng-template>
+
+*ngIf then else 
+<div *ngIf="condition; then thenBlock else elseBlock"> 
+    This content is not shown
+</div>
+ 
+<ng-template #thenBlock>
+    content to render when the condition is true.
+</ng-template>
+ 
+<ng-template #elseBlock>
+    content to render when condition is false.
+</ng-template>
+		
+- Attribute directives(An Attribute or style directive can change the appearance or behaviour of an element.E.g.ngModel,ngClass,ngStyle)
+
+
+ngClass -(ngClass Directive is an Angular Attribute Directive, which allows us to add or remove CSS classes to an HTML element.)
+E.g.	<div [ngClass]="'red size20'"> Red Text with Size 20px </div>
+		<div ngClass='red size20'>Red Text with Size 20px </div> 
+		<div [ngClass]="['red','size20']">Red Text with Size 20px </div>
+		<div [ngClass]="{'red':true,'size20':true}">Red Text with Size 20px</div>
+
+			.red { color: red; }
+			.size20 { font-size: 20px; }
+			
+ngStyle - (This directive allows us to set the many inline style of a HTML element using an expression.)
+E.g.	<some-element[ngStyle]="{'font-size.em': '3'}">...</some-element>
+
+- Track By(Track By clause allows you to specify your own key to identify objects.trackBy clause eliminates this problem, by telling angular how to identify the similar elements. The Angular will use the value returned trackBy to match the elements returned by the database and updates the DOM Elements without recreating them.)
+Syntax:
+<li *ngFor="let item of items; let i = index; trackBy: trackByFn">...</li>
+<tr *ngFor="let movie of movies; trackBy:movie?.title;">
+? is known as Safe navigation operator ( Elvis operator ). 
+
+Track By In case of Multiple Identity(In case of your model containing composite key, that can be handled by first creating a method, which returns the unique identifier and assigning this method to trackBy)
+Syntax:
+CompositeKey (index,item){
+    return item.title + item.director ;
+}
+<tr *ngFor="let movie of movies; trackBy:CompositeKey;" >
+
+9. Pipes (Pipes helps us to format or transform data to display in our template.)
+Syntax: Expression | pipeOperator[:pipeArguments]
+E.g. {{toDate | date:'medium'}}
+Inbuild pipes: date, uppercasepipe & lowercasepipe, SlicePipe, DecimalPipe / NumberPipe, PercentePipe, CurrencyPipe
+
+Angular 2 Custom Pipes (The Angular 2 comes with a few built-in pipes like Date pipe, Currency pipe, and Number pipe, etc. But these pipes might not be sufficient for our needs.That is where you need to build a Custom pipe in Angular 2 / Angular 4)
+
+10. Component Communication
+The Parent Component communicates with the child component using the @Input Annotation.The child component can communicate with the parent by raising an event using @Output Annotation.
+
+@Input Decorator:
+In the Child Component(
+	-Import the @Input module from @angular/Core Library
+	-Mark those property, which you need data from parent as input property using @Input decorator)
+
+In the Parent Component(
+	-Bind the Child component property in the Parent Component when instantiating the Child)
+
+- Various ways to use @Input Decorator
+Using the @Input decorator to decorate the class property
+     @Input() count: number;
+
+Using the input array meta data of the component decorator
+    inputs: ['count']
+	
+-There are two ways of detecting when input changes in the child component in Angular
+
+Using OnChanges LifeCycle Hook (ngOnChanges is a lifecycle hook, which angular fires when it detects changes to data bound input property. )
+
+Using Input Setter (Create getter & setter on property count and attach @Input annotation. We intercept the input changes from setter function and log it to console.)
+
+@Output Decorator (Angular Pass data to parent component)
+There are three ways in which parent component can interact with the child component
+
+- Parent Listens to Child Event (The Child Component exposes an EventEmitter Property. This Property is adorned with the @Output decorator. When Child Component needs to communicate with the parent it raises the event. The Parent Component listens to that event and reacts to it.)
+
+EventEmitter Property(To Raise an event, the component must declare an EventEmmitter Property. The Event can be emitted by calling the .emit() method)
+E.g. countChanged: EventEmitter<number> = new EventEmitter()
+
+@Output Decorator(To make that event accessible from parent component, you must decorate the property with @Output decorator.)
+
+How to Pass data to parent component using @Output
+In the child component
+	-Declare a property of type EventEmitter and instantiate it
+	-Mark it with a @Output annotation
+	-Raise the event passing it with the desired data
+	
+In the Parent Component
+	-Bind to the Child Component using Event Binding and listen to the child events
+	-Define the event handler function
+
+
+- Parent uses Local Variable to access the child (The Template Reference variable is created, when you use #<varibaleName> and attach it to a DOM element. You can then, use the variable to reference the DOM element in your Template.The local variable approach is simple and easy. But it is limited because the parent-child wiring must be done entirely within the parent template. The parent component itself has no access to the child. You can’t use the local variable technique if an instance of the parent component class must read or write child component values or must call child component methods.)
+
+
+- Parent uses a @ViewChild to get reference to the child component (The @ViewChild decorator takes the name of the component/directive as its input. It is then used to decorate a property. The Angular then injects the reference of the component to the Property.)
+Syntax:    @ViewChild(ChildComponent) child: ChildComponent;
+
+
+11. Component Life Cycle Hooks in Angular (The life cycle hooks are the methods that angular invokes on directives and components as it creates, changes, and destroys them.)
+For example
+
+When component is initialized, Angular invokes ngOnInit
+When a component’s input properties change, Angular invokes ngOnChanges
+When a component is destroyed, Angular invokes ngOnDestroy
+
+Here is the complete list of life cycle hooks provided by the Angular
+
+- ngOnChanges(The Angular invokes this life cycle hook whenever any data-bound property of the component or directive changes.The ngOnChanges() method takes an object that maps each changed property name to a SimpleChange object, which holds the current and previous property values. You can iterate over the changed properties and act upon it.We also looked at how OnChanges does not fire when the input property is an array/object because Angular uses dirty checking to compare the properties.)
+
+ 
+- ngOnInit(This hook is called when the component is created for the first time. This hook is called after the constructor and first ngOnChanges hook.Note that ngOnChanges hook is fired before ngOnInit. Which means all the input properties are available to use when the ngOnInit hook is called.This hook is fired only once.This hook is fired before any of the child directive properties are initialized.)
+
+- ngDoCheck(This event is called immediately after the ngOnInit. There after it is called on every change made to the component properties,  When ever the event is raised or any operations that may result in change in value of properties.In such a scenario, where Angular fails to detect the changes to the input property, the DoCheck allows us to implement our custom change detection.)
+
+	-key-value differs(The KeyValueDiffers service is a differ that tracks changes made to an object over time and also expose an API to react to these changes.Key-value differs should be used for dictionary-like structures, and it works at the key level. This differ will identify changes when a new key is added, when a key removed and when the value of a key changed.)
+	
+	-Iterable differs(Iterable differs service is used when we have a list-like structure and we’re only interested in
+	knowing things that were added or removed from that list.It will detect if the elements are added/removed from the array. This will not detect if the changes are done to the elements of array.To do that, you need to create a separate key value differ for the each element)
+	
+
+
+- ngAfterContentInit(This Life cycle hook is called after the Component’s content has been fully initialized. This hook is called after the properties marked with ContentChild and ContentChildren are fully initialized)
+
+- ngAfterContentChecked(This life cycle hook is called after the Components Content is checked by the Angular’s Change detection module. It is called immediately after ngAfterContentInit and after every subsequent ngDoCheck().)
+
+- ngAfterViewInit(Similar to ngAfterContentInit, but invoked after Angular initializes the component’s views and all its child views.  This is  Called once after the first ngAfterContentChecked.)
+
+- ngAfterViewChecked(The Angular fires this hook after it checks the component’s views and child views. This event is fired after the ngAfterViewInit and after that for every subsequent ngAfterContentChecked hook.)
+
+- ngOnDestroy(This hook is called just before the Component/Directive instance is destroyed by Angular)
+
+
+- The Order of Execution of Life Cycle Hooks
+The Angular hooks are executed in this order:
+
+*When the Component is Created
+
+1.OnChanges
+2.OnInit
+3.DoCheck
+4.AfterContentInit
+5.AfterContentChecked
+6.AfterViewInit
+7.AfterViewChecked
+
+*When the Component with Child Component is created
+
+1.OnChanges
+2.OnInit
+3.DoCheck
+4.AfterContentInit
+5.AfterContentChecked
+6.	Child Component -> OnChanges
+7.	Child Component -> OnInit
+8.	Child Component -> DoCheck
+9.	Child Component -> AfterContentInit
+10.	Child Component -> AfterContentChecked
+11.	Child Component -> AfterViewInit
+12.	Child Component -> AfterViewChecked
+13.AfterViewInit
+14.AfterViewChecked
+
+*After The Component is Created
+
+OnChanges
+DoCheck
+AfterContentChecked
+AfterViewChecked
+
+The OnChanges hook is fired only if there is a input property defined in the component and it changes. Otherwise it will never fire
+
+- Difference Between Constructor and ngOnInit(The Constructor is executed when the class is instantiated. It has nothing do with the angular. It is the feature of Javascript and Angular does not have the control over it
+
+The ngOnInit is Angular specific and is called when the Angular has initialized the component with all its input properties
+
+The @Input properties are available under the ngOnInit lifecycle hook. This will help you to do some initialization stuff like getting data from the back-end server etc to display in the view
+
+@Input properties are shows up as undefined inside the constructor.)
+
+12. Angular Forms
+	* Template-driven forms approach (In Template-driven approach is the easiest way to build the Angular forms. The logic of the form is placed in the template. )
+	
+	The Template-driven forms:
+
+		-The form is set up using ngForm directive
+		-controls are set up using the ngModel directive
+		-ngModel also provides the two-way data binding
+		-The Validations are configured in the template via directives
+	
+	- When we include FormsModule, the Angular is going to look out for any <form> tag in our HTML template. Angular does this via ngForm directive. ngForm directive automatically detects the <form> tag and automatically binds to it. You do not have to do anything on your part to invoke and bind the ngForm directive.
+	
+	- There are two ways you can set the value of the form elements
+		-Two-way data binding
+		-Use the template reference variable (We can get the template reference variable (#contactForm) in the app.component.ts, using the viewchild)
+		
+	
+	* Reactive forms or model-driven forms approach(In Reactive Forms or Model-driven approach, the logic of the form is defined in the component as an object. The Model-driven approach has more benefits as it makes the testing of the component easier.)
+	
+	- Reactive forms are forms where we define the structure of the form in the component class. I,e we create the form model with Form Groups, Form Controls, and Form Arrays. We also define the validation rules in the component class. Then, we bind it to the HTML form in the template. This is different from the template-driven forms, where we define the logic and controls in the HTML template.
+	
+	- FormBuilder (The FormBuilder is the helper API to build forms in Angular.  It provides shortcuts to create the instance of the FormControl, FormGroup or FormArray. It reduces the code required to write the complex forms.)
+	
+	- SetValue (We use the SetValue to update the FormControl , FormGroup or FormArray. When we use it to update the FormGroup or FormArray the SetValue requires that the object must match the structure of the FormGroup or FormArray exactly. Otherwise, it will result in an error.)
+	
+	- PatchValue (The PatchValue is used to update only a subset of the elements of the FormGroup or FormArray. It will only update the matching objects and ignores the rest.)
+	
+	- onlySelf (There may be circumstances, where you do not want angular to check the validity of the entire form, whenever you change the value using the setValue or patchValue. We do that by setting the onlySelf=true as the argument. In such cases, the angular only checks the validity of the current control, but does not check any other control and does not propagate the validity checking to the parent form group.)
+	
+	- emitEvent (The Angular forms emit two events. One is ValueChanges & the other one is StatusChanges. The ValueChanges event is emitted whenever the value of the form is changed. The StatusChanges event is emitted whenever angular calculates the validation status of the Form. )
+	
+	- SetValue Vs PatchValue (The difference is that with setValue we must include all the controls, while with the patchValue you can exclude some controls.)
+	
+	- StatusChanges(The StatusChanges is an event raised by the Angular forms whenever the Angular calculates the validation status of the FormControl, FormGroup or FormArray. It returns an observable so that you can subscribe to it.)
+	
+	- ValueChanges (The ValueChanges is an event raised by the Angular forms whenever the value of the FormControl, FormGroup or FormArray changes. It returns an observable so that you can subscribe to it. The observable gets the latest value of the control. It allows us to track changes made to the value in real-time and respond to it. For example, we can use it to validate the value, calculate the computed fields, etc.)
+
+	
+The Angular Forms module consists of three Building blocks:
+ - FormControl (A FormControl represents a single input field in an Angular form.The FormControl is an object that encapsulates all this information related to the single input element. It Tracks the value and validation status of each of these control.ngModel directive added to each form element, which converts them to FormControl.)
+	
+	-markAsTouched (This method will mark the control as touched.)
+	-markAllAsTouched (Marks the control and all its descendant controls as touched.)
+	-markAsUntouched(Marks the control as untouched.)
+	-markAsDirty(Marks the control as dirty. A control becomes dirty when the control’s value is changed through the UI.)
+	-markAsPristine(Marks the control as pristine.)
+	-markAsPending(Marks the control as pending. We mark it as pending when the control is in the midst of conducting a validation check.)
+	-disable(Disables the control. This means the control is exempt from validation checks and excluded from the aggregate value of any parent. Its status is DISABLED.)
+	-enable(Enables control. This means the control is included in validation checks and the aggregate value of its parent. Its status recalculates based on its value and its validators.)
+	
+
+
+ 
+ - FormGroup (FormGroup is a collection of FormControls . Each FormControl is a property in a FormGroup. with the control name as the key.Imagine Form having large no of fields. It is cumbersome to loop over large no of FormControls and check for validity.FormGroup solve’s this issue by providing a wrapper interface around a collection of FormControls A FormGroup tracks the status of each child FormControl and aggregates the values into one object. with each control name as the key.The FormGroup takes 3 arguments. a collection of a child FormControl, a validator, and an asynchronous validator. The validators are optional.)
+
+ - FormArray (FormArray is an array of form controls. It is similar to FormGroup except for one difference. In FormGroup each FormControl is a property with the control name as the key. In FormArray is an array of form controls.)
+ 
+ 
+13. Angular Services (Our components need to access to data. You can write data access code in each component, but that is very inefficient and breaks the rule single responsibility. The Component must focus on presenting data to the user. The task of getting data from the back end server must be delegated to some other class. Such class is called service class. Because it provides the service of providing data to the every component that needs it.Service is a piece of reusable code with a focused purpose. A code that you will use it in many components across your application) 
+
+ 
+
+14. Angular Dependency Injection (Dependency Injection (DI) is a technique in which we provide an instance of an object to another object, which depends on it. This is technique is also known as “Inversion of Control” (IoC)) 
+
+ 
+
+- The services injected at the module level are app-scoped, which means that they can be accessed from every component/service within the app.Any service provided in the Child Module is available in the entire application. 
+
+ 
+
+- The services is provided in a lazy module are module scoped and available only to the lazy loaded module. 
+
+ 
+
+- The services provided in the Component level are available only to the Component & and to the child components. 
+
+ 
+
+- Angular Injector (The Angular Injector is responsible instantiating the dependency and injecting into the component or service.The Injector looks for the dependency in the Angular Providers using the token. The Angular Providers array returns the Provider, which contains the information about how to create the instance of the dependency. The Injector creates the instance and injects it into Component or service.) 
+
+ 
+
+15. Angular Providers (The Angular Provider is an instruction (or recipe) that describes how an object for a certain token is created. ) 
+
+- Validator (A Validator is a function that checks the instance of FormControl, FormGroup or a FormArray and returns a list of errors. If the Validator returns a null means that validation has passed. disable browser validator by adding the novalidate attribute to the <form> element ) 
+
+ 
+
+- sync validators runs validations and returns immediately. They either return a list of errors or null if no errors found. 
+
+ 
+
+- async validators: returns a Promise or Observable. They either return a list of errors or null if no errors are found. 
+
+-dirty: A control is dirty if the user has changed the value in the UI.  
+
+touched: A control is touched if the user has triggered a blur event on it. 
+
+ 
+
+16. Angular HttpClient (The HttpClient is a separate model in Angular and is available under the @angular/common/http package. All you need to do is to import it and  inject it into our component/service. Then, Use HttpClient.Get method to send an HTTP Request and Subscribe to the response Asynchronously. And when the response arrives map it the desired object and displays the result.) 
+
+ 
+
+Parameters of the HttpClient.get: 
+
+-headers (It allows you to add HTTP headers to the outgoing requests. ) 
+
+ 
+
+-observe (The HttpClient.get method returns the body of the response parsed as JSON (or type specified by the responseType). Sometimes you may need to read the entire response along with the headers and status codes. To do this you can set the observe property to the response.) 
+
+ 
+
+-params(Allows us to Add the URL parameters to the Get Request) 
+
+ 
+
+-reportProgress(This is a boolean property. Set this to true, if you want to get notified of the progress of the Get Request. This is a pretty useful feature when you have a large amount of data to download (or upload) and you want the user to notify of the progress.) 
+
+ 
+
+-responseType(Json is the default response received. In case you want a different type of response, then you need to use this parameter. The Allowed Options are arraybuffer, blob, json, and text. ) 
+
+ 
+
+-withCredentials(It is of boolean type. If the value is true then HttpClient.get will request data with credentials) 
+
+ 
+
+- What is Observable? (Observable help us to manage async data. You can think of Observables as an array of items, which arrive asynchronously over time. Observer subscribes to an Observable. The observer reacts when the value of the Observable changes. An Observable can have multiple subscribers and all the subscribers are notified when the state of the Observable changes.) 
+
+- The subscribe method has three arguments. Each specifies the action to be taken when a particular event occurs 
+
+17.
+HttpParams(The Query parameters are added using the helper class HttpParams.  The HttpParams is passed as one of the argument to HttpClient.get method.)
+
+18. Http Interceptors (The interceptors sit between our application and the backend. When the application makes a request, the interceptor catches the request before it is sent to the backend. By Intercepting request, we will get access to request headers and body. This enables us to transform the request before sending it to the Server. 
+
+When the response arrives from the back end the Interceptors can transform it before passing it to our application.
+
+One of the main benefits of the Http Interceptors is to add the Authorization Header to every request. We could do this manually, but that is a lot of work and error-prone. Another benefit is to catch the errors generated by the request and log them.)
+
+- HttpInterceptor Interface (At the heart of the Interceptor, logic is the HttpInterceptor Interface. we must Implement it in our Interceptor Service.
+
+The Interface contains single method Intercept with the following signature
+
+intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
+)
+
+- You can define more than one Interceptor. The Interceptors are called in the order they are defined in provider metadata.
+
+- HttpRequest (The first argument is HttpRequest.The HttpRequest is an outgoing HTTP request which is being intercepted. It contains URL, method, headers, body and other request configuration. The HttpRequest is immutable class. Which means that we can’t modify the original request.To make changes we need to clone the Original request using the HttpRequest.clone method)
+
+- HttpHandler(The second argument is httpHandler.The HttpHandler dispatches the HttpRequest to the next Handler using the method HttpHandler.handle. The next handler could be another Interceptor in the chain or the Http Backend.)
+
+- The map can be used to modify the response before sending it to the application. The do operator is useful for logging the events or time requests. The catch operator can be used to catch the error. The retry operator can be used to retry the failed operation.
+
+19. Angular Routing
+
+- What is Routing (Routing allows you to move from one part of the application to another part or one View to another View.)
+
+- Router (The Angular Router is an object that enables navigation from one component to the next component as users perform application tasks like clicking on menus links, buttons or clicking on back/forward button on the browser. We can access the router object and use its methods like navigate() or navigateByUrl(), to navigate to a route.)
+
+- Route (Route tells the Angular Router which view to display when a user clicks a link or pastes a URL into the browser address bar. Every Route consists of a path and a component it is mapped to. The Router object parses and builds the final URL using the Route)
+
+- Routes (Routes is an array of Route objects our application supports)
+
+- RouterOutlet (The outerOutlet is a directive (<router-outlet>) that serves as a placeholder, where the Router should display the view)
+
+- RouterLink(The RouterLink is a directive that binds the HTML element to a Route. Clicking on the HTML element, which is bound to a RouterLink, will result in navigation to the Route. The RouterLink may contain parameters to be passed to the route’s component.)
+
+- RouterLinkActive (RouterLinkActive is a directive for adding or removing classes from an HTML element that is bound to a RouterLink. Using this directive, we can toggle CSS classes for active RouterLinks based on the current RouterState)
+
+- ActivatedRoute (The ActivatedRoute is an object that represents the currently activated route associated with the loaded Component.)
+
+- RouterState (The current state of the router including a tree of the currently activated routes together with convenience methods for traversing the route tree.)
+
+- RouteLink Parameters array(The Parameters or arguments to the Route. It is an array which you can bind to RouterLink directive or pass it as an argument to the Router.navigate method.)
+
+- Location Strategies in Angular Router (Being a Single Page Application, the Angular applications should not send the URL to the server and should not reload the page, every time user requests for a new page. The Location Strategy defines how our URL/Request is resolved. It also determines how your URL will look like)
+
+	Angular supports two Location Strategies:
+
+		-HashLocationStrategy (HashLocationstrategy implements the Hashstyle routing)
+			Where URL looks like http://localhost:4200/#/product
+		-PathLocationStrategy (Pathlocationstrategy implements the HTML5 style routing)
+			Where URL looks like http://localhost:4200/product
+			
+- The Client-side routing is handled in two ways
+	-Hash style Routing (The Hash style routing using the anchor tags technique to achieve client-side routing.The anchor tags, when used along with the # allows us to jump to a place, within the web page.Use hash location strategy only if you have to support the older browsers.)
+	
+	-HTML 5 Routing (The introduction of HTML5, now allows browsers to programmatically alter the browser’s history through the history object.Using history.pushState() method, we can now programmatically add the browser history entries and change the location without triggering a server page request.It is recommended to use the HTML 5 style as your location strategy.)
+	
+	The history.pushState method accepts the following three parameters.
+		-State object: A state object is a JavaScript object which is associated with the new history entry created by pushState()
+		-Title: This is an optional title for the state
+		-URL: The new history entry’s URL. The browser won’t jump to that page.
+		
+- ActviatedRoute (The ActivatedRoute is a service, which keeps track of the currently activated route associated with the loaded Component.)
+
+- ParamMap (The Angular adds the map all the route parameters in the ParamMap object, which can be accessed from the ActivatedRoute service. The ParamMap makes it easier to work with parameters. We can use get or getAll methods to retrieve the value of the parameters in the component. Use the has method to check if a certain parameter exists.)
+
+	-Two ways in which you can use the ActivatedRoute to get the parameter value from the ParamMap object:
+		1.Using Snapshot( this.id=this._Activatedroute.snapshot.paramMap.get("id");)
+		2.Using observable(this._Activatedroute.paramMap.subscribe(params => { 
+												this.id = params.get('id'); });
+		Use this option if you expect the value of the parameter to change over time.)
+		
+- The ActivatedRoute service has a great deal of useful information including:
+
+url: This property returns an array of Url Segment objects, each of which describes a single segment in the URL that matched the current route.
+
+params: This property returns a Params object, which describes the URL parameters, indexed by name.
+
+queryParams: This property returns a Params object, which describes the URL query parameters, indexed by name.
+
+fragment: This property returns a string containing the URL fragment.
+
+Snapshot: The initial snapshot of this route
+
+data: An Observable that contains the data object provided for the route
+
+Component: The component of the route. It’s a constant
+
+outlet: The name of the RouterOutlet used to render the route. For an unnamed outlet, the outlet name is primary.
+
+routeConfig: The route configuration used for the route that contains the origin path.
+
+parent: an ActivatedRoute that contains the information from the parent route when using child routes.
+
+firstChild: contains the first ActivatedRoute in the list of child routes.
+
+children: contains all the child routes activated under the current route
+
+pathFromRoot: The path from the root of the router state tree to this route
+
+- Why subscribe to route params? And why not to use snapshot to get params value? (Because the angular does not create the component if it is already present in the DOM. It reuses the component instance.This implies that the ngOnInit life cycle hook is not invoked when the user navigates to the component again. We are retrieving the parameter value in the ngOnInit using the snapshot method. Hence our component does not update itself.This issue can be rectified by subscribing to the observable params property. Our component will be notified, whenever the value of the parameter changes. So that we can update the component accordingly.)
+
+- Absolute paths will begin with a forward slash /. When using the relative path, the router will append the path to the parent route path to construct the final URL. Relative path without forward slash.
+E.g. [routerLink]="['overview']" -> relative path,
+[routerLink]="['/overview']"
+
+- What are query parameters (Query parameters are optional parameters that you pass to a route. The query parameters are added to the end of the URL Separated by Question Mark)
+Difference between Query parameter and Route parameter(The route parameters are required and is used by Angular Router to determine the route. They are part of the route definition.However, the query parameters are optional. The missing parameter does not stop angular from navigating to the route. The query parameters are added to the end of the URL Separated by Question Mark.Use route parameter when the value is required. Use query parameter, when the value is optional.)
+E.g. <a [routerLink]="['product']" [queryParams]="{ page:2 }">Page 2</a>
+The router will construct the URL as /product?pageNum=2
+
+- Remember, the router populates the snapshot, when the component loads for the first time. Hence you will read only the initial value of the query parameter with the snapshot property. You will not be able to retrieve any subsequent changes to the query parameter.
+
+- Navigating between Angular routes
+	-Using RouterLink Directive (The RouterLink is a directive, which you can use to bind any clickable HTML element to a Route. When the user clicks on the HTML element the router will navigate to the associated Route.)
+	
+	-Via Code (This is done using the router service, which provides navigate and navigatebyUrl methods via which you can perform route changes.)
+		-router.navigate(Use this method, if you want to Navigate to a route using the link parameters array. The first argument to the navigate method is link parameters array, which is similar to what we provide while defining the routerlink directive.)
+		-navigate.navigateByUrl(Use this method if you want to navigate to a URL by using the absolute path. The first argument is a string containing the complete URL.)
+		
+- Relative and Absolute Paths in Routes
+The Angular routes resemble directory-like tree structure.
+Hence, We can use directory like syntaxes like add / (root node) , ./ (current node) or ../ (Parent node) in the link parameters array
+The First segment of the link parameters array can be prepended with “/“, “./“, or “../”
+If the First segment of the route starts with “/“, then the path is considered to be Absolute path
+If the First segment begins with “./” or it does not begin with a slash, then the path is considered to be the relative path.
+And if the First segment begins with “. ./“, then the path is relative to the parent route. (one level up)
+
+-router.navigate method and relative path (As mentioned earlier navigate method always uses the absolute path. To make Navigate method work with a relative path, we must let know the router where are we in the route tree.)
+E.g. this._router.navigate(['detail'], { queryParams: { pageNum: this.pageNum + 1 }, relativeTo: this._Activatedroute } );
+
+-RouterLink directive and relative path(If you were using a RouterLink to navigate instead of the Router service, you’d use the same link parameters array, but you wouldn’t provide the object with the relativeTo property. The ActivatedRoute is implicit in a RouterLink directive.)
+
+-Absolute Path Vs Relative Path Which one to Use?(It is recommended to use the Relative path. Using absolute path breaks our code if the parent URL structure changes. The relative path will not change even if the parent path changes.)
+To go to the parent route -> <li><a [routerLink]="['../']">Back</a></li>
+To go to the Sibling route -> <li><a [routerLink]="['../<sibling>']">Goto sibling</a></li>
+To go to the child route -> <li><a [routerLink]="['<Child>']">Goto Child</a></li>
+
+- NavigationExtras
+* relativeTo: ActivatedRoute
+Enables relative navigation from the current ActivatedRoute. This is applicable only to router.navigate() method.
+Example: this.router.navigate(['../Detail'], { relativeTo: this.activatedRoute });
+
+* queryParams: Params
+Sets query parameters to the URL.
+Example:this.router.navigate(['/products'], { queryParams: { page: 1 } });
+
+* fragment: string
+Sets the hash fragment for the URL.
+Example: this.router.navigate(['/home'], { fragment: 'top' });
+
+* preserveQueryParams: boolean
+Passes the query parameters of the current route to the next route
+Example: this.router.navigate(['/view'], { preserveQueryParams: true });
+If you are on the route “Product?Page=2”, then the clicking on the following will pass the query parameters to the “view” route as “view?Page=2”
+
+* queryParamsHandling: QueryParamsHandling
+The query parameters of the current route are merged with that of the new route if you set queryParamsHandling=”merge”.
+EX: this.router.navigate(['/view'], { queryParams: { page: 2 },preserveQueryParams: true, queryParamsHandling: "merge" });
+
+* preserveFragment: boolean
+Passes the fragment of the current route to the next navigation. Similar to the preserveQueryParams
+Ex. this.router.navigate(['/view'], { preserveFragment: true });
+
+* skipLocationChange: boolean
+You can change the route, without changing the URL in the browser.  This Navigates to a new URL without pushing a new state into history.
+Example: this.router.navigate(['/view'], { skipLocationChange: true });
+
+* replaceUrl: boolean
+The current route is removed from the browser history while navigating to the new route. It replaces the current state in history with the new state.
+Ex: this.router.navigate(['/view'], { replaceUrl: true });
+
+- RouterLink
+* QueryParams: Params
+Ex:<a [routerLink]="['product']" [queryParams]="{ page:2}" }>Page 2</a>
+
+* preserveQueryParams:boolean
+Ex: <a [routerLink]="['product']" { preserveQueryParams: "true" }">Page 2</a>
+ 
+*queryParamsHandling : QueryParamsHandling
+Ex:<a [routerLink]="['product']" { queryParams: { page: 2 }, queryParamsHandling: "merge" }">Page 2</a>
+ 
+* Fragment: string
+Ex:<a [routerLink]="['product']" { fragment: 'top' }">Page 2</a>
+ 
+*PreserveFragment: boolean
+Ex: <a [routerLink]="['product']" { preserveFragment: true }">Page 2</a>
+ 
+*SkipLocationChange: boolean
+Ex: <a [routerLink]="['product']" { skipLocationChange: true">Page 2</a>
+ 
+*ReplaceUrl: boolean
+Ex: <a [routerLink]="['product']" { replaceUrl: true">Page 2</a>
+
+- Angular Guards (We use the Angular Guards to control, whether the user can navigate to or away from the current route.)
+Why Guards(Allowing the user to navigate all parts of the application is not a good idea. We need to restrict the user until the user performs specific actions like login. Angular provides the Route Guards for this purpose.)
+
+- Uses of  Angular Route Guards
+To Confirm the navigational operation
+Asking whether to save before moving away from a view
+Allow access to certain parts of the application to specific users
+Validating the route parameters before navigating to the route
+Fetching some data before you display the component.
+
+- Types of Route Guards
+1.CanActivate (This guard decides if a route can be activated (or component gets used). This guard is useful in the circumstance where the user is not authorized to navigate to the target component. Or the user might not be logged into the system.Use cases for the CanActivate Guard - Checking if a user has logged in,Checking if a user has permission)
+
+2.CanDeactivate (This Guard decides if the user can leave the component (navigate away from the current route). This route is useful in where the user might have some pending changes, which was not saved. The CanDeactivate route allows us to ask user confirmation before leaving the component.  You might ask the user if it’s OK to discard pending changes rather than save them.)
+
+3.Resolve (This guard delays the activation of the route until some tasks are complete. You can use the guard to pre-fetch the data from the backend API, before activating the route.)
+
+4.CanLoad (The CanLoad Guard prevents the loading of the Lazy Loaded Module. We generally use this guard when we do not want to unauthorized user to be able to even see the source code of the module.
+
+This guard works similar to CanActivate guard with one difference. The CanActivate guard prevents a particular route being accessed. The CanLoad prevents entire lazy loaded module from being downloaded, Hence protecting all the routes within that module.)
+
+5.CanActivateChild (This guard determines whether a child route can be activated. This guard is very similar to CanActivateGuard. We apply this guard to the parent route. The Angular invokes this guard whenever the user tries to navigate to any of its child route. This allows us to check some condition and decide whether to proceed with the navigation or cancel it.)
+
+- Order of execution of route guards (CanDeactivate() and CanActivateChild() guards are always checked first. The checking starts from the deepest child route to the top.CanActivate() guard is checked next and checking starts from the top to the deepest child route.CanLoad() is invoked next,  If the feature module is to be loaded asynchronously.
+Resolve() Guard is invoked last.The Angular Router cancels the navigation If any of the guards return false.)
+
+- What is CanActivateChild Guard (The CanActivatechild guard is very similar to CanActivateGuard. We apply this guard to the parent route. The Angular invokes this guard whenever the user tris to navigate to any of its child route. This allows us check some condition and decide whether to proceed with the navigation or cancel it.)
+
+- If any guard returns a UrlTree, current navigation will be cancelled and a new navigation will be kicked off to the UrlTree returned from the guard.
+
+- Difference between CanActivate & CanActivateChild ()
+- What is CanDeactivate Guard (The Angular CanDeactivate guard is called, whenever we navigate away from the route before the current component gets deactivated.
+
+The best use case for CanDectivate guard is the data entry component. The user may have filled the data entry and tries to leave that component without saving his work. The CanDeactivate guard gives us a chance to warn the user that he has not saved his work and give him a chance to cancel the navigation.)
+
+- Angular Resolve Guard (The Angular renders the Angular Component, when we navigate to a route. The component will then sends an HTTP request to back end server to fetch data so as to display it to the user. We generally do this in ngOnInit Life cycle hook
+
+The Problem with the above approach is that, the use will see a empty component. The component shows the data after the arrival of the data. The one way is solve this problem is to show some loading indicator
+
+The another way to solve this is to make use the Resolve Guard. The Resolve Guard pre fetches the data before the navigating to the route. Hence the component is rendered along with the data.)
+
+- Angular Pass Data to Route: Dynamic/Static(The Angular allows us to pass data to the route. The data can be static or dynamic. The static data use the Angular route data property, where you can store arbitrary data associated with this specific route. For to pass dynamic data (or an object), we can make use of the history state object. The Routed Component can then retrieve the dynamic data from the history state object.)
+
+- The Angular can pass data to Route in several ways.
+	-Using URL or Route Parameter
+	-The Optional Parameter or Query Strings
+	-Using URL Fragment
+	-Static data using the data property
+	-Dynamic data using state object
+
+- RouterLinkActive (The RouterLinkActive is a directive for adding or removing classes from an HTML element that is bound to a RouterLink. Using this directive, we can toggle CSS classes for active Router Links based on the current RouterState. The main use case of this directive is to highlight which route is currently active. You can either make the font bold or apply some background color.)
+
+- Angular Router Events (The Angular Router raises events when it navigates from one route to another route. It raises several events such as NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ResolveStart, etc. You can listen to these events and find out when the state of the route changes. Some of the useful events are route change start ( NavigationStart ) and route change end ( NavigationEnd). )
+
+ROUTER EVENT	THE EVENT TRIGGERED WHEN
+NavigationStart			the Angular router stats the navigation.
+RouteConfigLoadStart	the Router lazy loads a route configuration.
+RouteConfigLoadEnd		after a route has been lazy-loaded.
+RoutesRecognized		the Router parses the URL and the routes are recognized.
+GuardsCheckStart		the Router begins the Guards phase of routing.
+ChildActivationStart	the Router begins activating a route's children.
+ActivationStart			the Router begins activating a route.
+GuardsCheckEnd			the Router finishes the Guards phase of routing successfully.
+ResolveStart			the Router begins the Resolve phase of routing.
+ResolveEnd				the Router finishes the Resolve phase of routing successfully.
+ChildActivationEnd		the Router finishes activating a route's children.
+ActivationEnd			the Router finishes activating a route.
+NavigationEnd			navigation ends successfully.
+NavigationCancel		navigation is canceled. This is due to a Route Guard returning false during navigation.
+NavigationError			navigation fails due to an unexpected error.
+Scroll					An event that represents a scrolling event.
+
+20. What is Angular Module (The Angular module (also known as ngModule) help us to organize the application parts into cohesive blocks of functionality. Each block is focused on providing a specific functionality or a feature.)
+
+-JavaScript Modules(The JavaScript Modules , which also goes by the name JS modules or ES modules or ECMAScript modules are part of the JavaScript Language. The JS Modules are stored in a file. There is exactly one module per file and one file per module. These modules contain small units of independent, reusable code. They export a value, which can be imported and used in some other module.)
+
+-ngModule (The NgModule() decorator is a function that takes a single metadata object, whose properties describe the module. The most important properties are as follows.
+Declarations array- (This is where components, directives, and pipes that belong to this NgModule are declared.)
+
+Providers array- (The Services, which you want to add to the global collection of services are added here. The services are then available for injection via dependency injection.)
+
+Imports array- (If you want this ngModule require any feature or functionality, then those modules need to be imported here. Any components, directives, and pipes that are defined and exported in that module can be used in this module.)
+
+Exports array- (If you want other modules to use the component, pipes, directives of this NgModule, then those must be specified here.)
+
+Bootstrap-(The main component of this module, which needs to be loaded when the module is loaded is specified here.)
+
+EntryComponents-(The components that are dynamically loaded needs to be declared here.The components are loaded when angular
+
+Finds the Component Selector in the HTML
+Declared in the bootstrap array
+Declared in the root definition
+If your component is not listed any of the above, then it needs to be declared in EntryComponent so that it Angular knows where to find them and compile.)
+
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

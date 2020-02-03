@@ -874,8 +874,142 @@ EntryComponents-(The components that are dynamically loaded needs to be declared
 Finds the Component Selector in the HTML
 Declared in the bootstrap array
 Declared in the root definition
-If your component is not listed any of the above, then it needs to be declared in EntryComponent so that it Angular knows where to find them and compile.)
-)
+If your component is not listed any of the above, then it needs to be declared in EntryComponent so that it Angular knows where to find them and compile.))
+
+- forRoot vs forChild (We need to register the services only in the AppModule and not in the Lazy loaded module. The forRoot method imports RouterModule and registers all its services. Hence it is used in the root module. The forChild method imports RouterModule but does not registers its services. Hence it should be all other modules.)
+
+21. Folder structure for each Angular Module (The Angular uses the concept of Angular Modules to group together the related features. This gives us a nice starting point to organize the folder structure. Each Module should get its own folder named after the Module Name.)
+
+- The Angular does not make any distinction between the Modules. but based on how we make use of modules, we can classify our modules into the following four categories
+	- Root Module (The Angular requires one module to be loaded as the application starts. We call this as root module. The root module loads the root component and all other modules. The root module is conventionally called as AppModule and created under the  /src/app.folder)
+	
+	- Feature Module (The Features module implements a specific feature of the Application. All the components, pipes & directives which implement the feature become part of the module.)
+	
+	- Shared Module (There are many components, directives & pipes, which we may like to share across various modules. All these components should go into the shared module.Other Modules can import the shared modules and use the exported components, directives & pipes)
+	
+	- Core Module (The Services shared across the application must become part of the CoreModule. The user authentication services, services that fetch data are examples of such services.The Services usually needs to be Singleton, Only one instance of the Service must exist. Providing it in CoreModule ensures that the services remain singleton.)
+
+- Final Folder Structure
+
+├── src
+│   ├── app
+│   │   ├── admin 
+│   │   │   ├── directives
+│   │   │   ├── pages
+│   │   │   │   ├── dashboard
+│   │   │   │   │   ├── dashboard.component.ts
+│   │   │   │   ├── rights
+│   │   │   │   │   ├── rights.component.ts
+│   │   │   │   ├── user
+│   │   │   │   │   ├── user.component.ts
+│   │   │   │   ├── admin.component.ts
+│   │   │   │   ├── admin.component.html
+│   │   │   │   ├── admin.component.css
+│   │   │   │   ├── index.ts
+│   │   │   ├── pipes
+│   │   │   ├── admin.module.ts
+│   │   │   ├── admin.routing.module.ts
+│   │   │   ├── index.ts
+│   │   ├── core
+│   │   │   ├── models
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── repos.ts
+│   │   │   ├── services
+│   │   │   │   ├── github.service.ts
+│   │   │   │   ├── index.ts
+│   │   │   ├── core.module.ts
+│   │   │   ├── index.ts
+│   │   ├── github
+│   │   │   ├── pages
+│   │   │   │   ├── repolist
+│   │   │   │   │   ├── repolist.component.ts
+│   │   │   │   │   ├── repolist.component.html
+│   │   │   ├── github.routing.module.ts
+│   │   │   ├── github.module.ts
+│   │   │   ├── index.ts
+│   │   ├── home
+│   │   │   ├── pages
+│   │   │   │   ├── aboutus
+│   │   │   │   │   ├── about-us.component.ts
+│   │   │   │   ├── contactus
+│   │   │   │   │   ├── contact-us.component.ts
+│   │   │   │   ├── home
+│   │   │   │   │   ├── home-us.component.ts
+│   │   │   │   ├── index.ts
+│   │   │   ├── home-routing.module.ts
+│   │   │   ├── home.module.ts
+│   │   │   ├── index.ts
+│   │   ├── shared
+│   │   │   ├── layout
+│   │   │   │   ├── footer
+│   │   │   │   │   ├── footer.component.ts
+│   │   │   │   │   ├── footer.component.html
+│   │   │   │   ├── header
+│   │   │   │   │   ├── header.component.ts
+│   │   │   │   │   ├── header.component.html
+│   │   │   ├── index.ts
+│   ├── app-routing.module.ts  
+│   ├── app-wildcard-routing.module.ts
+│   ├── app.component.css
+│   ├── app.component.html
+│   ├── app.component.spec.ts
+│   ├── app.component.ts
+│   ├── app.module.ts
+│   ├── not-found.component.ts
+
+https://www.tektutorialshub.com/angular/angular-folder-structure-best-practices/
+
+22. Lazy loading in Angular (Lazy loading is the technique were angular loads the modules only when it is needed rather than all at once. It is also called on-demand loading.)
+
+Why Lazy load?(The Angular apps get bigger in size as we add more and more features. The Angular Modules help us to manage our app by creating separate modules for each new features. But, as the app gets bigger in size, slower it loads. That is because of angular loads the entire application upfront.)
+
+- In Angular, the Lazy loading works at the module level. i.e. you can lazy load only the Angular Modules. The Individual components cannot be loaded lazily. The Lazy loading works via the Angular Router Module. The loadChildren method of the Angular Router is responsible to load the Modules.
+
+- We define the modules to be lazy loaded, when we define the routes. 
+E.g. 
+ {path: "admin", loadChildren:'./admin/admin.module#AdminModule'}
+ 
+ The first parameter is the path, which represents the URL path segment. Note that there is no component defined in the route. Instead, we define the module to load using loadChildren.
+ 
+ loadChildren (The loadChildren accepts the value as string. The string is split into two sections separated by #.as shown below. The first part is the full path to the module file (without the ts extension). In the example above ./admin/admin.module points to admin.module.ts file. The second part is the export class name of the Module. i.e AdminModule)
+ 
+- Dos and Dont’s of Lazy loaded Modules(Do not import lazy loaded modules in any other modules. This will make the angular to load the module eagerly and can have unexpected bugs.
+
+Be careful when you import other modules in the lazy loaded module. If the other modules providers any services, then the lazy loaded module will get a new instance of the service. This may have unintended side effects, if the services are intended to be app-wide singleton. The Angular Modules and lazy loading of those modules is one of the best features of angular. You should load only the SharedModule & CoreModule upfront and lazy load rest of the application. )
+
+23. Angular Preloading Strategy(Preloading in Angular means loading the Lazy loaded Modules in the background asynchronously, while user is interacting with the app. This will help boost up the loading time of the app.)
+
+The Angular apps are modular and allows us build apps in chunks of modules. We can load these modules lazily, when the user navigates to a route. We need to mark the modules to be lazy loaded using the loadChildren property of the router.
+
+By Lazy loading the modules, we can reduce the initial download size of the app, and thus making app load quickly. This is very useful in case of big apps. But when user navigates to a lazy loaded part of the app, the angular will have to download the module from the server, which means that user will have to wait for the download to finish.
+
+By Preloading the lazy loaded module, the user do not have to wait for the module to be downloaded as the module is already downloaded in the background.
+
+- How to Enable Preloading (To make use of Preloading, first we need to enable lazy loading of the Modules. Mark the modules with the loadChildren, when you define routes as shown below. The angular will lazy load those modules.
+E.g. 
+const routes: Routes = [
+  {path: "admin", loadChildren:'./admin/admin.module#AdminModule'},
+];
+
+And then, you can enable preloading by using the preloadingStrategy: PreloadAllModules, while registering the routes using the forRoot method.
+ RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}) 
+ - NoPreloading (This will disables all the preloading. This is default behavior i.e. if you don not specify the preloadingStrategy, then the angular assumes you do not want preloading.))
+ 
+ - The better way strategy would be
+		-Eagerly Load the modules required at startup. For Example authentication module, core module, shared module etc
+		-Preload all frequently used modules, may be after some delay
+		-Lazy load remaining modules
+
+24. Angular CanLoad Guard (The Angular Route Guards are used to control, whether the user can navigate to or away from a given route. The canload guard determines whether a particular lazy loaded child route can be loaded. Sometimes, we want to prevent the loading of the modules for unauthorized users. This is where we use the CanLoad Guard.)
+
+
+
+
+
+
+
+
+
 
 
 

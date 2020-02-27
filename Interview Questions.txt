@@ -1,0 +1,35 @@
+Interview questions to be revised:
+
+1. Promise vs Observable
+Promises are eager, Observables are lazy.Function passed to Observable constructor gets called only when someone actually subscribes to an Observable.
+With a Promise you can only handle one event.
+With an Observable you can handle multiple events.
+.subscribe() is similar to .then(). 
+An Observable can do everything that a Promise can do, plus more.
+Use Angular’s HttpClient to handle API calls.
+The Angular framework uses a lot of RxJS.
+
+
+E.g.
+* Promise
+Promise is always resolved with the first value passed to the resolve function and ignores further calls to it.
+const numberPromise = new Promise((resolve) => {
+    resolve(5);
+    resolve(10);
+});
+
+numberPromise.then(value => console.log(value));
+// still prints only 5
+
+*Observables
+On the contrary, Observables allow you to resolve (or, as we say, “emit”) multiple values. Here is how it would look.
+const numberObservable = new Observable((observer) => {
+    observer.next(5);
+    observer.next(10);
+});
+
+numberObservable.subscribe(value => console.log(value));
+// prints 5 and 10
+
+
+2. 

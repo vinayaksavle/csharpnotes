@@ -187,3 +187,29 @@ where do we register routes, RouteConfig
 What are types response types from WebAPI, what webapi will return return types
 exception occur in WebAPI what is status code of exception and exception
 Entityframework version, mvc version
+
+
+How to disable lazy loading
+Check version difference in angular, C#
+Queries of SQL, Top highest salaries
+Web Security
+Design patterns 
+Stack Heap
+Dependency Injection
+Delegate func predicate action
+CTE
+Entityframework Queries join
+How can you see plan seek and scan
+OAuth
+Debug vs release
+covariance and contravarince
+Why abstract and not concreate
+WebAPI Middleware
+Rownumber, PartitionBy, Rank, DenseRank
+webAPI code using serializer
+Question on finally block
+Dispose
+SQLDataAdapter
+callback
+class vs structure
+Why value types in stack and reference types in heap

@@ -100,9 +100,48 @@ Output:
 Abstract class constructor
 Derived class constructor
 
-select count(1) from tbl_ToDosUsageTracking where activityid in (6,13) and activitydate  > ()
-from thenmozhi (privately):
-select count(1) from tbl_ToDosUsageTracking where activityid in (9,10,11,12) and activitydate  > ()
+4. Columnstore Indexes?
+ Row store does exactly as the name suggests – stores rows of data on a page – and column store stores all the data in a column on the same page. Rowstores are better at random reads and random writes. Columnstores are better at sequential reads and sequential writes.
+ 
+When to use NoLocks?
+When update or insert operation happening on table but you want to select records from that table, use nolock to fetch records which are not commited
+Issues with NOLOCK
+We mentioned above how you can get dirty reads using the NOLOCK hint. These are also other terms you may encounter for this hint.
+
+Dirty Reads - this occurs when updates are done, so the data you select could be different.
+Nonrepeatable Reads - this occurs when you need to read the data more than once and the data changes during that process
+Phantom Reads - occurs where data is inserted or deleted and the transaction is rolled back. So for the insert you will get more records and for the delete you will get less records.
+
+Index Scan:
+Since a scan touches every row in the table, whether or not it qualifies, the cost is proportional to the total number of rows in the table. Thus, a scan is an efficient strategy if the table is small or if most of the rows qualify for the predicate.
+
+Index Seek:
+Since a seek only touches rows that qualify and pages that contain these qualifying rows, the cost is proportional to the number of qualifying rows and pages rather than to the total number of rows in the table.
+If there is no index, then you might see a Table Scan (Index Scan) in the execution plan.
+Index seeks are generally preferred for the highly selective queries. What that means is that the query is just requesting a fewer number of rows or just retrieving the other 10 (some documents says 15 percent) of the rows of the table.
+In general query optimizer tries to use an Index Seek which means that the optimizer has found a useful index to retrieve recordset. But if it is not able to do so either because there is no index or no useful indexes on the table, then SQL Server has to scan all the records that satisfy the query condition.
+
+5. IEnumerable Vs IQueryable
+IEnumerable
+System.Collections Namespace
+No base interface	
+Lazy Loading Not Supported
+While querying data from database, IEnumerable executes select query on server side, load data in-memory on client side and then filter data. Hence does more work and becomes slow.
+Suitable for LINQ to Object and LINQ to XML queries
+IEnumerable is suitable for querying data from in-memory collections like List, Array and so on.
+ 	
+
+IQueryable
+System.Linq Namespace
+Derives from IEnumerable
+Lazy Loading Supported
+While querying data from database, IQueryable executes select query on server side with all filters. Hence does less work and becomes fast.
+Suitable for LINQ to SQL queries
+IQueryable is suitable for querying data from out-memory (like remote database, service) collections.
+
+
+6. 
+
 
 
 Cloudmoyo
@@ -119,7 +158,10 @@ Practical example of Abstraction
 What is component
 What contains in Component
 Directive and its type , how will you crate custom directive, have you created custom directive in your project
+
 Pipe
+https://www.tektutorialshub.com/angular/angular-custom-pipes/
+
 Role of model in your project
 To display list of employees, create, update, implementation of that
 
@@ -153,9 +195,17 @@ how to check whether value isnull in where condition
 
 UST Global
 Angular Lifecycle, which one will call at the end of lifecycle,  why to use ngOnDestroy
+https://www.tektutorialshub.com/angular-tutorial/#component-life-cycle-hook
+https://www.tektutorialshub.com/angular/angular-ngoninit-and-ngondestroy/
+
 parent to child, child to parent, cross component
+https://www.tektutorialshub.com/angular/angular-passing-data-child-component/
+
 Custom library, or packages
+
 Custom Pipes, What is Pipe
+https://www.tektutorialshub.com/angular/angular-custom-pipes/
+
 Directive, Example of Attribute Directive
 Component vs Directive
 What is Observable, normal method and observable method difference.
@@ -213,3 +263,23 @@ SQLDataAdapter
 callback
 class vs structure
 Why value types in stack and reference types in heap
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -140,78 +140,174 @@ Suitable for LINQ to SQL queries
 IQueryable is suitable for querying data from out-memory (like remote database, service) collections.
 
 
-6. 
+6. Where do we register DI and how to add Dependency Injection
+Dependency injection is the design pattern that allow us to inject the dependency to the class from outer world rather than creating with in class. This will help us to create loosely coupled application so that it has provided greater maintainability, testability and also reusability. There is a built-in support of dependency injection in ASP.net Core. This supports is not limited to middleware, but also support in Controllers, views, and model as well. There are three easy step to use Dependency injection into ASP.net core MVC application.
+
+-Create the service
+-Register the service into ConfigureService method of the startup class, so that it available to use
+-Inject the service where you want to use
+-ASP.net core allow us to specify the lifetime for registered services based on our requirement to use the service. The service can either register as Singleton, Transient or Scoped.
+
+7. Model vs ViewModel
+Model: Strictly looks and feels like your data model. For all intents and purposes it is only a class representation of your data model. It has no knowledge of your View or any elements within your View. That said, it should not contain any attribute decorators (ie; Required, Length, etc.) that you would use for your View.
+
+View Model: Serves as a data-binder between your View and your Model and in many cases, is also a wrapper for your Model. It would be rendered useless without the View, so it typically isn't reusable across multiple Views and Controllers like a standard Model is.
+
+8. When to use HTTPGET, POST, PUT, DELETE
+You can practically use a POST to do all the CRUD operations but you shouldn't. Because Each HTTP verb has its own responsibility. A GET is supposed to be idempotent and safe. A GET can be cached and in a browser, refreshed again and again. Ideally, firing a GET request shouldn't change the data. If HttpGet method can delete, can insert, can update and also can return value then why we use HttpPort, HttpPut and HttpDelete?
+
+Imagine a scenario.
+You have a Web API method which adds a new entry to the database using GET. If your GET request becomes a link and it gets crawled by a search engine. You will have your database full of duplicate data. So it makes sense to use POST in this case.
+
+Selecting The Appropriate Method
+
+GET - requests data from the resource and should not produce any side effect.
+POST - method requests the server to create a resource in the database, mostly when a web form is submitted. Post is non-idempotent which means multiple requests will have different effects.
+PUT - method requests the server to update a resource or create the resource, if it doesn’t exist. Put is idempotent which means multiple requests will have the same effects.
+DELETE - method requests that the resources, or its instance, should be removed from the database.
+
+POST vs PUT
+
+POST and PUT are very similar in that they both send data to the server that the server will need to store somewhere. if you make the same request twice using PUT, with the same parameters both times, the second request will have no effect. This is why PUT is generally used for the Update scenario.
+
+There are some more limitations for different Http verbs as well.
+
+GET parameters are passed as part of the URL, which is of small and limited length of 256 chars by default, with some servers supporting 4000+ chars. If you want to insert a long record,you'll have to use POST. Post is considered limitless but there are limitations which vary according to browsers.
+GET is re-executed if a user presses a Back button in a browser. Post doesn't.
+GET is cached by browsers, nodes in the network, Internet Service Providers.
+Unless the content changes, GET to the same URL must return same results to all the users or else you won't have any trust what so ever in the returned result. etc
+
+9. How you manage connectionstring for dev, sit, uat, prod
+In Startup file by using IHostingEnvironment we can set IsDevelopment, IsProduction, IsStaging
+
+10. Why to use WebApi if we can return through MVC also
+Web API Controllers can be created and hosted in any ASP.NET Application, not just MVC applications. Thus, an obvious reason to create a Web API is if you do not have an MVC front-end (e.g. classic, RESTful web-services hosted by your company/organization.)Almost all MVC Controllers are implemented with the View in mind.
+
+11. What is component, What contains in Component
+Components are like the basic building block in an Angular application. Components are defined using the @component decorator. A component has a selector, template, style and other properties, using which it specifies the metadata required to process the component. Compnent is custom tag like how html contains input, form tag. The specific type of directive that allows us to utilize web component functionality - encapsulated, reusable elements available throughout our application. Component is a directive with a view or template.
+
+12. Directive and its type , how will you crate custom directive, have you created custom directive in your project 
+Directives is used to add behavior to an existing DOM element. Directive is use to design re-usable components. Directives don’t have View. You can’t define Pipes in directive.
+
+Component vs Directive
+For register component we use @Component meta-data annotation.For register directives we use @Directive meta-data annotation.
+Component is a directive which use shadow DOM to create encapsulate visual behavior called components.  Components are typically used to create UI widgets.Directives is used to add behavior to an existing DOM element.
+Component is used to break up the application into smaller components.Directive is use to design re-usable components.
+Only one component can be present per DOM element.Many directive can be used in a per DOM element
+@View decorator or templateurl template are mandatory in the component.Directives don’t have View.
+Component is used to define pipes. You can’t define Pipes in directive.
+
+13. 
+Single() - There is exactly 1 result, an exception is thrown if no result is returned or more than one result. 
+SingleOrDefault() – Same as Single(), but it can handle the null value.
+
+First() - There is at least one result, an exception is thrown if no result is returned.
+FirstOrDefault() - Same as First(), but not thrown any exception or return null when there is no result.
+
+Single() asserts that one and only one element exists in the sequence.
+First() simply gives you the first one.
+
+Use Single / SingleOrDefault() when you sure there is only one record present in database or you can say if you querying on database with help of primary key of table.
+Developer may use First () / FirstOrDefault() anywhere,  when they required single value from collection or database.
+
+Single() or SingleOrDefault() will generate a regular TSQL like "SELECT ...".
+The First() or FirstOrDefault() method will generate the TSQL statment like "SELECT TOP 1..."
+
+14. map, set 
+Map is a new data structure introduced in ES6 which lets you map keys to values without the drawbacks of using Objects.
+let map = new Map();
+map.set("A",1);
+map.set("B",2);
+map.set("C",3);
+
+Sets are a bit like maps but they only store keys not key–value pairs.
+let set = new Set();
+set.add('APPLE');
+set.add('ORANGE');
+set.add('MANGO');
+
+15. 
+Delegates - Delegate is a type that defines a method signature and it is useful to hold the reference of one or more methods which are having the same signatures.
+By using delegates, you can invoke the methods and send methods as an argument to other methods.
+E.g. <access_modifier> delegate <return_type> <delegate_name>(<parameters>)
+    public delegate void SampleDelegate(int a, int b);
+	SampleDelegate dlgt = m.Add;
+
+Func - Func is a built-in generic delegate and it is useful to hold the reference of one or more methods which is having the same method signature without declaring any custom delegate object.
+E.g. public delegate TResult Func<in T,out TResult>(T arg);
+            Func<int, int, int> dlgt = Add;
+
+Action - Action is a built-in generic delegate same as Func delegate to hold the reference of one or more methods but the only difference is the Action delegate will not return any value. 
+E.g. public delegate void Action<in T1, in T2>(T1 arg1, T2 arg2);
+
+Predicate - Predicate is a built-in generic delegate and it is useful to validate whether the input parameter meets the specified condition or not and it’s same as Func and Action delegates to hold the reference of one or more methods.
+E.g. public delegate bool Predicate<in T>(T arg);
+
+16. 
+What is an Observable
+Observable converts the ordinary stream of data into an observable stream of data. It observes the stream of data and emits the value, complete or error signals to the consumers of the stream. You can think of Observable it as a wrapper around the stream of data. Observables are declarative. You define an observable function just like any other variable. The observable function executes only when someone subscribes to it.
+
+Who are observers (subscribers)
+The Observable on its own is useless unless someone consumes the value delivered by the observable. We call them observers or subscribers. The observable communicates with the observers using callbacks. The observer must subscribe with the observable to receive the value from the observer. While subscribing it optionally passes the three callbacks. next(), error() & complete().
+
+The observable invokes the next() callback whenever the value arrives in the stream. It passes the value as the argument to the next callback. If the error occurs, then the error() callback is invoked. It invokes the complete() callback when the stream completes.
+
+Observable creation functions
+1. Create - The Create method is one of the easiest. The create method calls the observable constructor behind the scene. Create is a method of the observable object, Hence you do not have to import it. The Create method calls the constructor behind the scene.
+
+2. Of Operator - The Of creates the observable from the arguments that you pass into it. You can pass any number of arguments to the Of. Each argument emitted separately and one after the other. It sends the Complete signal in the end. Accepts variable no of arguments. emits each argument as it is without changing anything		
+E.g. ngOnInit() {
+  const array=[1,2,3,4,5,6,7]
+  const obsof1=of(array);
+  obsof1.subscribe(val => console.log(val),
+           error=> console.log("error"),
+          () => console.log("complete"))
+ 
+}
+ 
+**** Output ***
+[1, 2, 3, 4, 5, 6, 7]
+complete
+
+3. From Operator - From Operator takes only one argument that can be iterated and converts it into an observable.Accepts only one argument. iterates over the argument and emits each value.
+
+17. Observable vs Promises
+Promise emits a single value while Observable emits multiple values. So, while handling a HTTP request, Promise can manage a single response for the same request, but what if there are multiple responses to the same request, then we have to use Observable. Yes, Observable can handle multiple responses for the same request. But, promise returns the very first value and ignore the remaining values whereas Observable return all the value. Promise is not lazy while Observable is lazy. Observable is lazy in nature and do not return any value until we subscribe. Observable is cancellable in nature by invoking unsubscribe() method, but Promise is not cancellable in nature.
+
+18. What is AOT vs JIT
+JIT generates JavaScript however, AoT usually generates TypeScript.
+* JIT - Compile TypeScript just in time for executing it.
+Compiled in the browser.
+Each file compiled separately.
+No need to build after changing your code and before reloading the browser page.
+Suitable for local development.
+
+* AOT - Compile TypeScript during build phase.
+Compiled by the machine itself, via the command line (Faster).
+All code compiled together, inlining HTML/CSS in the scripts.
+No need to deploy the compiler (Half of Angular size).
+More secure, original source not disclosed.
+Suitable for production builds.
+
+19. 
 
 
 
-Cloudmoyo
-Design patterns used
-Exp on .Net Core
-where do we register DI and how to add
-Actions performed in Controller  
-How you manage connectionstring for dev, sit, uat, prod
-.Net core where can we host kestrel, iis
-Describe Abstract , Interface where can we use
-Abstraction and Encapsulation
-Practical example of Abstraction
-
-What is component
-What contains in Component
-Directive and its type , how will you crate custom directive, have you created custom directive in your project
-
-Pipe
-https://www.tektutorialshub.com/angular/angular-custom-pipes/
-
-Role of model in your project
-To display list of employees, create, update, implementation of that
 
 
-Gateway
-.Net Core different from other framework
-Authorization in .NetCore
-What is json
-constant vs static 
-sealed class
-extension methods
-string interpolation
-interface vs abstraction
-method overriding
 
-Difference between first and firstordefault
-left join in linq query
-can I have the method in derived class of same but different parameters can we override that method
 
-Component
-Services in Angular
-Parent to Child
-Child to Parent
-Authorization in Angular
-How to restrict the user from authenticating/ access
-inner join vs left join
-where we use char and nchar
-primary key in SQL can it be null
-foreign key can it be null
-how to check whether value isnull in where condition
 
-UST Global
-Angular Lifecycle, which one will call at the end of lifecycle,  why to use ngOnDestroy
-https://www.tektutorialshub.com/angular-tutorial/#component-life-cycle-hook
-https://www.tektutorialshub.com/angular/angular-ngoninit-and-ngondestroy/
 
-parent to child, child to parent, cross component
-https://www.tektutorialshub.com/angular/angular-passing-data-child-component/
 
-Custom library, or packages
 
-Custom Pipes, What is Pipe
-https://www.tektutorialshub.com/angular/angular-custom-pipes/
 
 Directive, Example of Attribute Directive
-Component vs Directive
+https://www.tektutorialshub.com/angular/angular-directives/
+https://www.tektutorialshub.com/angular/angular-ngclass-directive/
+
 What is Observable, normal method and observable method difference.
-Observable vs Promises
-What is AOT
-How will you pas data from one component to other component
+
 What is AuthGuards
 What is Resolver in AuthGuards, resolver in routing
 Lazy Loading
@@ -264,13 +360,82 @@ callback
 class vs structure
 Why value types in stack and reference types in heap
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Role of model in your project
+To display list of employees, create, update, implementation of that
+
+
+Gateway
+
+Authorization in .NetCore, Authorization in Angular
+https://jasonwatmore.com/post/2019/10/16/aspnet-core-3-role-based-authorization-tutorial-with-example-api
+https://jasonwatmore.com/post/2019/08/06/angular-8-role-based-authorization-tutorial-with-example
+
+What is json
+constant vs static 
+sealed class
+extension methods
+string interpolation
+interface vs abstraction
+method overriding
+
+Difference between first and firstordefault
+left join in linq query
+can I have the method in derived class of same but different parameters can we override that method
+
+
+Services in Angular
+https://dzone.com/articles/what-is-a-service-in-angular-js-why-to-use-it
+
+
+inner join vs left join
+where we use char and nchar
+primary key in SQL can it be null
+foreign key can it be null
+how to check whether value isnull in where condition
+
+UST Global
+Angular Lifecycle, which one will call at the end of lifecycle,  why to use ngOnDestroy
+https://www.tektutorialshub.com/angular-tutorial/#component-life-cycle-hook
+https://www.tektutorialshub.com/angular/angular-ngoninit-and-ngondestroy/
+
+parent to child, child to parent, cross component
+https://www.tektutorialshub.com/angular/angular-passing-data-child-component/
+
+Custom library, or packages
+
+Custom Pipes, What is Pipe
+https://www.tektutorialshub.com/angular/angular-custom-pipes/
+
+
+
+
+Http GET, POST
+https://www.djamware.com/post/5b87894280aca74669894414/angular-6-httpclient-consume-restful-api-example
  
 
 
 
+Cloudmoyo
+
+-Abstraction and Encapsulation, Practical example of Abstraction
+https://www.tutlane.com/tutorial/csharp/csharp-abstraction
 
 
-
+-Pipe
+https://www.tektutorialshub.com/angular/angular-custom-pipes/
 
 
 

@@ -289,7 +289,122 @@ No need to deploy the compiler (Half of Angular size).
 More secure, original source not disclosed.
 Suitable for production builds.
 
-19. 
+19. constant vs static vs readonly
+* Constant
+
+Constant fields are defined at the time of declaration in the code snippet, because once they are defined they can't be modified. By default a constant is static, so you can't define them static from your side. It is also mandatory to assign a value to them at the time of declaration otherwise it will give an error during compilation of the program snippet. That's why it is also called a compile-time constant.
+E.g.
+void Sum(int j)  
+{  
+const int i = 9, k = 2;  
+const int A = i + k;  
+} 
+Output: 11
+
+Explanation
+The preceding code snippet will produce a result of 11, without showing any error since we already declared it at the initial point of declaration.
+What if, we make some changes in the code above, such as:
+
+void Sum(int j)  
+{  
+   const int i = 9, k = 2;  
+// const int A = i + k;  
+   Const int B = i + j;  
+} 
+Explanation
+This code snippet will take you toward a compile-time error, because there is no initialization, since it's evaluated at run time.
+
+Points to Remember
+
+Compile-time constant
+Can't be declared static
+Can't be modified or changed
+Can be of any type of Access Modifier
+Local scope
+Needs to get initialized
+Declared at the time of declaration
+
+* Readonly
+A Readonly field can be initialized either at the time of declaration or within the constructor of the same class. We can also change the value of a Readonly at runtime or assign a value to it at runtime (but in a non-static constructor only). For that reason a Readonly field is also called a run-time constant.
+
+E.g.
+class ReadOnly  
+{  
+   readonly int i;  
+   public ReadOnly( )  
+   {  
+       i = 11;  
+       Console.WriteLine(i);  
+   }  
+} 
+Explanation
+We can assign the value to an integer later in the snippet; this is possible when using the Readonly keyword. We can modify it too depending on the use.
+
+Points to Remember
+
+Run-time constant
+It can be static
+Global scope
+Can be declared in the constructer class
+Generally public
+
+* Static
+
+The static keyword is used to declare a static member. If we are declare a class as a static class then in this case all the class members must be static too. The static keyword can be used effectively with classes, fields, operators, events, methods and so on effectively.
+
+Snippet
+
+class ReadOnly  
+{  
+    static int i = 11;  
+    public static void disp()  
+    {  
+        Console.WriteLine(i);  
+    }  
+} 
+Output: 11
+
+Explanation
+
+This code will show no error and produce a result (11), since we declared its value to be static at the time of declaration. So we can access it depending on our use in the program.
+
+Let's make some changes in the snippet and see what happens then.
+
+class ReadOnly  
+{  
+    int i = 9;  
+    public static void disp()  
+    {  
+        Console.WriteLine(i);  
+    }  
+} 
+Explanation
+This snippet will show an error, because we didn't declare a value for the static and we are trying to access it within a method. We can't do that.
+
+Points to Remember
+
+Can't be used with indexers
+Works with constructors too
+By default it is private
+Can be parameterized or public too
+If its applied to a class then all the class members need to be static
+
+
+20. What is json
+JSON stands for JavaScript Object Notation. JSON is a lightweight format for storing and transporting data. JSON is often used when data is sent from a server to a web page
+JSON is "self-describing" and easy to understand.
+
+21. Why static
+Each object has its own set of member variables and all the member variables have a scope. If we want a variable to have the same value throughout all instances of the object then we can declare it as a static variable in our program. To manipulate and use the values of static variables we can also define a function as static. The keyword "static" means that only one instance of a given variable exists for a class. Static variables are used to define constants because their values can be retrieved by invoking the class without creating an instance of it. Static variables can be initialized outside the member function or class definition. Unlike other member variables, only one copy of the static variable exists in memory for all the objects of that class. Therefore, all objects share one copy of the static variable in memory.
+
+22. What is AuthGuards
+Auth-guard makes use of CanActivate interface and it checks for if the user is logged in or not. If it returns true, then the execution for the requested route will continue, and if it returns false, that the requested route will be kicked off and the default route will be shown.
+https://www.c-sharpcorner.com/article/protecting-routes-with-auth-guard-in-angular-7/
+
+23. 
+
+
+
 
 
 
@@ -308,8 +423,19 @@ https://www.tektutorialshub.com/angular/angular-ngclass-directive/
 
 What is Observable, normal method and observable method difference.
 
-What is AuthGuards
+
+
 What is Resolver in AuthGuards, resolver in routing
+Routing Flow with Resolver
+User clicks the link.
+Angular executes certain code and returns a value or observable.
+You can collect the returned value or observable in constructor or in ngOnInit, in class of your component which is about to load.
+Use the collected the data for your purpose.
+Now you can load your component.
+Steps 2,3 and 4 are done with a code called Resolver.
+So basically resolver is that intermediate code, which can be executed when a link has been clicked and before a component is loaded.
+
+
 Lazy Loading
 what is Map
 what is Filter
@@ -383,8 +509,13 @@ Authorization in .NetCore, Authorization in Angular
 https://jasonwatmore.com/post/2019/10/16/aspnet-core-3-role-based-authorization-tutorial-with-example-api
 https://jasonwatmore.com/post/2019/08/06/angular-8-role-based-authorization-tutorial-with-example
 
-What is json
-constant vs static 
+
+
+
+
+
+
+
 sealed class
 extension methods
 string interpolation

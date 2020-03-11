@@ -585,18 +585,37 @@ Hoisting of const
 Just like let, const declarations are hoisted to the top but are not initialized.
 
 So just in case, you missed the differences, here they are :
-
 var declarations are globally scoped or function scoped while let and const are block scoped.
-
 var variables can be updated and re-declared within its scope; let variables can be updated but not re-declared; const variables can neither be updated nor re-declared.
-
 They are all hoisted to the top of their scope but while varvariables are initialized with undefined, let and const variables are not initialized.
-
 While var and let can be declared without being initialized, const must be initialized during declaration.
 
+28. Attribute Routing
+To enable attribute routing, we need to use MapMvcAttributeRoutes() in the RouteConfig. If route URI is not defined in attribute routing then it will work as Convention Routing. We can use RoutePrefix attribute to define the prefix.  If you have already defined the Prefix for the whole controller then you can override it. To override the RoutePrefix, use ~ sign with prefix name with particular action in the Route attribute.
 
+29. What if we not declared HTTPVERBS can we access get, post
+The algorithm ASP.NET uses to calculate the "default" method for a given action goes like this:
+-If there is an attribute applied (via [HttpGet], [HttpPost], [HttpPut], [AcceptVerbs], etc), the action will accept the specified HTTP method(s).
+-If the name of the controller action starts the words "Get", "Post", "Put", "Delete", "Patch", "Options", or "Head", use the corresponding HTTP method.
+-Otherwise, the action supports the POST method. So if don't declare httpverbs by default it is POST call.
 
+30. How will you restrict action method GET, POST
+By using NonActionAttribute to restrict access to public methods of controller. 
+[NonAction]
+public void DoInternalStuff()
+{
+    Response.Write("We are doing internal stuff here!");
+    Response.End();
+}
 
+What are types response types from WebAPI, what webapi will return return types
+Void, Any Entity/Datatype, HttpResponseMessage, IHttpActionResult. IHttpActionResult contains ExecuteAsync method to create an instance of HttpResponseMessage asynchronously.
+
+31.  How to disable lazy loading
+Rules for lazy loading:
+context.Configuration.ProxyCreationEnabled should be true.
+context.Configuration.LazyLoadingEnabled should be true.
+Navigation property should be defined as public, virtual. Context will NOT do lazy loading if the property is not defined as virtual.
 
 
 
@@ -628,17 +647,19 @@ if I type something then what kind of validation you will use,  keypress event, 
 
 Why we use API
 WebAPI is stateful or stateless
-Attribute Routing
-Verbs in WebAPI
-What if we not declared HTTPVERBS can we access get, post
-how will you restrict action method GET, POST
-where do we register routes, RouteConfig
-What are types response types from WebAPI, what webapi will return return types
+- WebAPI is stateless. By stateless it means that the server does not store any state about the client session on the server side.
+
+
+
+
+
+
 exception occur in WebAPI what is status code of exception and exception
 Entityframework version, mvc version
 
 
-How to disable lazy loading
+
+
 Check version difference in angular, C#
 Queries of SQL, Top highest salaries
 Web Security

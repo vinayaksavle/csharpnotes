@@ -617,6 +617,128 @@ context.Configuration.ProxyCreationEnabled should be true.
 context.Configuration.LazyLoadingEnabled should be true.
 Navigation property should be defined as public, virtual. Context will NOT do lazy loading if the property is not defined as virtual.
 
+32. Why we use API & WebAPI is stateful or stateless
+WebAPI is stateless. By stateless it means that the server does not store any state about the client session on the server side. The client's application state should never be stored on the server, but passed around from the client to every place that needs it. That is where the ST in REST comes from, State Transfer. You transfer the state around instead of having the server store it. This is the only way to scale to millions of concurrent users. If for no other reason than because millions of sessions is millions of sessions.
+
+33. Why Static? When we can use static class?
+A static class is basically the same as a non-static class, but there in one difference, a static class cannot be instantiated, means we cannot use new keyword to create an object of the class. Even we cannot create any parameterized constructor because to pass the constructor value we need to create object.
+
+When we can use static class?
+We have a class Math in C#, let’s check it’s methods and operation. Say Math.Min, it takes two values of different data types and return minimum one, similarly Max, Round, Floor, Ceiling. If you notice all these methods take some values and operate only those provided values. So a static class should be container for sets of methods that just operate on input parameters and do not have to get or set any internal instance fields.
+
+What is a static class?
+
+A static class is similar to normal class with these differences:
+-Contains only static members means all the methods and members must be static
+Cannot be instantiated by using new keyword
+By default it is sealed class and therefore cannot be inherited.
+It can have default constructor or
+Can have only one constructor without any parameter
+Access modifiers are not allowed on static constructors
+Cannot have instantiate constructors
+Methods can be called by using class name dot (.) method name.
+
+What is a static Method?
+-Static method are similar to regular (instantiate) method, but they can be accessed directly by using the class name rather than the instance of the class, it will give error if we will try to access them with class instance.
+
+Can we have static as well as instantiate constructor in a class?
+-Yes, it can be in a normal instantiate class
+Any number of instantiate constructors
+With zero to any number of parameters
+Can have only one static constructors
+Static constructor cannot have any parameter
+Static constructor are mostly used to initialize some values
+a static constructor must be parameterless
+access modifiers are not allowed on static constructors
+
+Rules for static Constructor:
+-A class can have only one static constructor
+Static constructor can not have any parameter
+Static constructor can not have any access specifier
+It is used to initialize the static data members of the class
+for any number of object creation, the static constructor gets executed only once
+The static constructor gets executed when the class is used
+Static constructor can not be invoked by the programmer explicitly
+
+If you declare any variable as static, it is known static variable.
+
+The static variable can be used to refer the common property of all objects (that is not unique for each object) e.g. company name of employees,college name of students etc.
+The static variable gets memory only once in class area at the time of class loading. Suppose there are 50 employees in my company, now all instance data members will get memory each time when object is created.All employee have its unique empno and name so instance data member is good.Here, company refers to the common property of all objects.If we make it static,this field will get memory only once.
+
+why C# main method is static?
+The C# main method is static because object is not required to call static method if it were non-static method, compiler creates object first then call main() method that will lead the problem of extra memory allocation.
+Static Constructor:
+Static constructor is a special constructor that gets called before the first object of the class is created. It is used to initialize any static data, or to perform a particular action that needs performed once only.
+The time of execution of static constructor is not known but it is definitely before the first object creation – may be at the time of loading assembly.
+
+
+34. Check version difference in angular, C#
+Angular 2 (Web components based architecture, Supports Hierarchical Dependency Injection, Modern, faster, and highly scalable framework, Equally useful framework for web, mobile, and desktop apps)
+Why not Angular 3 (All package names were assigned version 2, but router package by mistaken was given version 3. Therefore, the development team skipped Angular Version 3 and directly named it version 4 to maintain compatibility with Angular Router's version.)
+Angular 4 (Animation moved out to a separated package @angular/animations, Supports for if/else statement, Supports for email validator, Reduce the size of the generated bundled code up to 60%)
+Angular 5 (Make AOT the default, Easier to build progressive web apps, Type checking in templates, Support for Internationalized Number, Date, and Currency Pipes, An update to Httpclient, Zone speed improvements, New Router Lifecycle Events)
+
+C# version 1.0 (Classes, Structs, Interfaces, Events,Properties,Delegates,Expressions,Statements,Attributes)
+C# version 2.0 (Generics, Partial types, Anonymous methods, Nullable value types, Iterators, Covariance and contravariance)
+C# version 3.0 (Auto-implemented properties, Anonymous types, Query expressions, Lambda expressions, Expression trees, Extension methods, Implicitly typed local variables, Partial methods, Object and collection initializers)
+C# version 4.0 (Dynamic binding, Named/optional arguments, Generic covariant and contravariant, Embedded interop types)
+C# version 5.0 (Asynchronous members, Caller info attributes)
+C# version 6.0 (Static imports, Exception filters, Auto-property initializers, Expression bodied members, Null propagator, String interpolation, nameof operator, Index initializers)
+C# version 7.0 (Out variables, Tuples and deconstruction, Pattern matching, Local functions, Expanded expression bodied members, Ref locals and returns)
+
+35. Queries of SQL, Top highest salaries
+To find nth highest salary using subquery
+select top 1 salary from (select distinct top N salary from employees order by salary desc) result order by salary
+
+To find nth highest salary using CTE (Do not use ROW_NUMBER function it is not good for duplicate records.)
+WITH RESULT AS ( SELECT Salary, DenseRank() over (order by salary desc) AS DenseRank From Employees)
+Select top 1 salary from result where denserank = N
+
+Write a query to retrieve the first four characters of  EmpLname from the EmployeeInfo table.
+SELECT SUBSTRING(EmpLname, 1, 4) FROM EmployeeInfo;
+
+Write a query to fetch only the place name(string before brackets) from the Address column of EmployeeInfo table.
+SELECT SUBSTRING(Address, 1, CHARINDEX('(',Address)) FROM EmployeeInfo;
+
+Write a query to find the names of employees that begin with ‘S’
+SELECT * FROM EmployeeInfo WHERE EmpFname ='S%';
+
+Write a query to fetch details of employees whose EmpLname ends with an alphabet ‘A’ and contains five alphabets.
+SELECT * FROM EmployeeInfo WHERE EmpLname LIKE '____a';
+
+Write a query to calculate the even and odd records from a table.
+SELECT EmpID FROM (SELECT rowno, EmpID from EmployeeInfo) WHERE MOD(rowno,2)=0;
+SELECT EmpID FROM (SELECT rowno, EmpID from EmployeeInfo) WHERE MOD(rowno,2)=1;
+
+Write a SQL query to retrieve employee details from EmployeeInfo table who have a date of joining in the EmployeePosition table.
+SELECT * FROM EmployeeInfo E WHERE EXISTS (SELECT * FROM EmployeePosition P WHERE E.EmpId = P.EmpId);
+
+36. How many instances of static class get created when static class are invoked - Only one instance of object is created
+If you create a static class and static constructor in it. If you invoke the static method twice but constructor will fire once. This proves that only one instance of the object is created for static class.
+
+37.  Which objects are allocated on the stack and which objects are allocated on the heap?
+Note: you should never say "reference types are allocated on the heap while value types are allocated on the stack", this is a commonly repeated mistake and sets off a red flag for an experienced interviewer.
+Reference types (classes, interfaces, delegates) are always allocated on the heap.
+Value types (derived from System.ValueType, e.g. int, bool, char, enum and any struct) can be allocated on the heap or on the stack, depending on where they were declared.
+-If the value type was declared as a variable inside a method then it's stored on the stack.
+-If the value type was declared as a method parameter then it's stored on the stack.
+-If the value type was declared as a member of a class then it's stored on the heap, along with its parent.
+-If the value type was declared as a member of a struct then it's stored wherever that struct is stored.
+
+Memory used by objects stored on the heap needs to be freed up by the garbage collector. When an object stored on the heap no longer has any references pointing to it, it's considered eligible for garbage collection.
+
+38. What is the purpose of async/await keywords?
+These keywords allow writing asynchronous non-blocking code in a synchronous fashion. This feature is facilitated by the Task/Task<T> classes or ValueTask/ValueTask<T> structs. These types represent an abstraction around an operation that may execute asynchronously. We use await keyword to materialize the task into resulting value. Methods that contain await must be marked with the async keyword.
+
+Every multithreaded execution can be represented as an asynchronous operation, but not every asynchronous operation necessarily employs additional threads. 
+
+39. dispose vs finalize 
+The main difference between dispose() and finalize() is that the method dispose() has to be explicitly invoked by the user whereas, the method finalize() is invoked by the garbage collector, just before the object is destroyed. Method dispose( ) is used to free unmanaged resources whenever it is invoked. Method finalize( ) is used to free unmanaged resources before the object is destroyed.
+
+40. Tight coupling vs Loose coupling
+Tight coupling is when a group of classes are highly dependent on one another. This scenario arises when a class assumes too many responsibilities, or when one concern is spread over many classes rather than having its own class.
+
+Loose coupling is achieved by means of a design that promotes single-responsibility and separation of concerns. A loosely-coupled class can be consumed and tested independently of other (concrete) classes. Interfaces are a powerful tool to use for decoupling. Classes can communicate through interfaces rather than other concrete classes, and any class can be on the other end of that communication simply by implementing the interface.
 
 
 
@@ -625,48 +747,9 @@ Navigation property should be defined as public, virtual. Context will NOT do la
 
 
 
-
-Directive, Example of Attribute Directive
-https://www.tektutorialshub.com/angular/angular-directives/
-https://www.tektutorialshub.com/angular/angular-ngclass-directive/
-
-What is Observable, normal method and observable method difference.
-MergeMap and 
-
-	
-	
-	
-
-uploading bulk data can we navigate to other component
-
-ngModel we have used I have to check whether the value is entered or not, Reactive forms, How to validate model value, user clicks submit method you have to validate whether value is entered or not
-How will you declare reactive forms
-can we create multiple form form inside other form
-what type of validation you are using
-if I type something then what kind of validation you will use,  keypress event, how will you declare output
-
-Why we use API
-WebAPI is stateful or stateless
-- WebAPI is stateless. By stateless it means that the server does not store any state about the client session on the server side.
-
-
-
-
-
-
-exception occur in WebAPI what is status code of exception and exception
-Entityframework version, mvc version
-
-
-
-
-Check version difference in angular, C#
-Queries of SQL, Top highest salaries
 Web Security
 Design patterns 
-Stack Heap
-Dependency Injection
-Delegate func predicate action
+
 CTE
 Entityframework Queries join
 How can you see plan seek and scan
@@ -675,7 +758,7 @@ Debug vs release
 covariance and contravarince
 Why abstract and not concreate
 WebAPI Middleware
-Rownumber, PartitionBy, Rank, DenseRank
+
 webAPI code using serializer
 Question on finally block
 Dispose
@@ -685,19 +768,6 @@ class vs structure
 Why value types in stack and reference types in heap
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Role of model in your project
 To display list of employees, create, update, implementation of that
 
 
@@ -706,13 +776,6 @@ Gateway
 Authorization in .NetCore, Authorization in Angular
 https://jasonwatmore.com/post/2019/10/16/aspnet-core-3-role-based-authorization-tutorial-with-example-api
 https://jasonwatmore.com/post/2019/08/06/angular-8-role-based-authorization-tutorial-with-example
-
-
-
-
-
-
-
 
 sealed class
 extension methods
@@ -748,15 +811,9 @@ Custom library, or packages
 Custom Pipes, What is Pipe
 https://www.tektutorialshub.com/angular/angular-custom-pipes/
 
-
-
-
 Http GET, POST
 https://www.djamware.com/post/5b87894280aca74669894414/angular-6-httpclient-consume-restful-api-example
  
-
-
-
 Cloudmoyo
 
 -Abstraction and Encapsulation, Practical example of Abstraction
@@ -766,6 +823,21 @@ https://www.tutlane.com/tutorial/csharp/csharp-abstraction
 -Pipe
 https://www.tektutorialshub.com/angular/angular-custom-pipes/
 
+
+Directive, Example of Attribute Directive
+https://www.tektutorialshub.com/angular/angular-directives/
+https://www.tektutorialshub.com/angular/angular-ngclass-directive/
+
+What is Observable, normal method and observable method difference.
+MergeMap and 
+uploading bulk data can we navigate to other component
+ngModel we have used I have to check whether the value is entered or not, Reactive forms, How to validate model value, user clicks submit method you have to validate whether value is entered or not
+How will you declare reactive forms
+can we create multiple form form inside other form
+what type of validation you are using
+if I type something then what kind of validation you will use,  keypress event, how will you declare output
+exception occur in WebAPI what is status code of exception and exception
+Entityframework version, mvc version
 
 
 
